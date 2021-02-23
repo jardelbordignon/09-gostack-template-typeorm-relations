@@ -1,26 +1,19 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+
+import Defaults from '@shared/infra/typeorm/entities/Defaults';
 
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import OrdersProducts from '@modules/orders/infra/typeorm/entities/OrdersProducts';
 
-class Order {
-  id: string;
-
+@Entity('orders')
+export default class Order extends Defaults {
+  @ManyToOne(() => Customer, { eager: true })
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
+  @OneToMany(() => OrdersProducts, order_products => order_products.order, {
+    cascade: true,
+    eager: true,
+  })
   order_products: OrdersProducts[];
-
-  created_at: Date;
-
-  updated_at: Date;
 }
-
-export default Order;

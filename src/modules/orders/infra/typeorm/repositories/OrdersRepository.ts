@@ -4,7 +4,7 @@ import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import ICreateOrderDTO from '@modules/orders/dtos/ICreateOrderDTO';
 import Order from '../entities/Order';
 
-class OrdersRepository implements IOrdersRepository {
+export default class OrdersRepository implements IOrdersRepository {
   private ormRepository: Repository<Order>;
 
   constructor() {
@@ -12,12 +12,19 @@ class OrdersRepository implements IOrdersRepository {
   }
 
   public async create({ customer, products }: ICreateOrderDTO): Promise<Order> {
-    // TODO
+    const order = this.ormRepository.create({
+      customer,
+      order_products: products, // order_products cascade true in Order entity for save the registers automatically
+    });
+
+    await this.ormRepository.save(order);
+
+    return order;
   }
 
   public async findById(id: string): Promise<Order | undefined> {
-    // TODO
+    return this.ormRepository.findOne(id, {
+      relations: ['order_products', 'customer'],
+    });
   }
 }
-
-export default OrdersRepository;

@@ -4,7 +4,7 @@ import ICustomersRepository from '@modules/customers/repositories/ICustomersRepo
 import ICreateCustomerDTO from '@modules/customers/dtos/ICreateCustomerDTO';
 import Customer from '../entities/Customer';
 
-class CustomersRepository implements ICustomersRepository {
+export default class CustomersRepository implements ICustomersRepository {
   private ormRepository: Repository<Customer>;
 
   constructor() {
@@ -38,5 +38,3 @@ class CustomersRepository implements ICustomersRepository {
     return findCustomer;
   }
 }
-
-export default CustomersRepository;
