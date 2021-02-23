@@ -11,7 +11,7 @@ export default class Order extends Defaults {
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
-  @OneToMany(() => OrdersProducts, orderProduct => orderProduct.order, {
+  @OneToMany(() => OrdersProducts, order_products => order_products.order, {
     cascade: true,
     eager: true,
   })
